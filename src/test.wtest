@@ -1,6 +1,7 @@
 import semillas.*
+import parcelas.*
 
-describe "asd" {
+describe "semillas" {
 	
 	const mentota = new Menta(anioDeObtencion = 2010, altura = 1)
 	const mentita = new Menta(anioDeObtencion = 2010, altura = 0.3)
@@ -10,39 +11,63 @@ describe "asd" {
 	const hierbaBuenita = new HierbaBuena(anioDeObtencion = 2005, altura = 3)
 	const sojitaTransgenica = new SojaTransgenica(anioDeObtencion = 2010, altura = 0.8)
 	
+	const parcela1 = new ParcelaEcologica(ancho = 20, largo = 1, horasDeSolAlDia = 8 )
+	const parcela2 = new ParcelaIndustrial(ancho = 20, largo = 1, horasDeSolAlDia = 8 )
 	
-	test "Menta de 1 metro" {
+	fixture {
+		parcela1.plantarSiPuede(mentita)
+	}
+	
+	test "Menta de 1 metro, Ejemplo 1" {
 		assert.that(mentota.daNuevasSemillas())
 		assert.equals(mentota.espacioOcupado(), 3)
 	}
 	
-	test "Menta de 0.3 metros" {
+	test "Menta de 0.3 metros, Ejemplo 2" {
 		assert.notThat(mentita.daNuevasSemillas())
 		assert.equals(mentita.espacioOcupado(), 0.9)
 	}
 	
-	test "Soja de 0.6 metros" {
+	test "Mentita" {
+		assert.equals(mentita.horasAlSolToleradas(), 6)
+		assert.that(mentita.parcelaEsIdeal(parcela1))
+	}
+	
+	test "Soja de 0.6 metros, Ejemplo" {
 		assert.notThat(sojita.daNuevasSemillas())
 		assert.equals(sojita.horasAlSolToleradas(), 7)
 		assert.equals(sojita.espacioOcupado(), 0.3)
 	}
 	
-	test "Quinoa del 2010" {
+	test "Quinoa del 2010, Ejemplo 1" {
 		assert.that(quinoita.daNuevasSemillas())
 	}
 	
-	test "Quinoa del 2001" {
+	test "Quinoa del 2001, Ejemplo 2" {
 		assert.that(quinoota.daNuevasSemillas())
 	}
 	
-	test "Hierba buena de 3 metros" {
+	test "Hierba buena de 3 metros, Ejemplo" {
 		assert.that(hierbaBuenita.daNuevasSemillas())
 		assert.equals(hierbaBuenita. espacioOcupado(), 18)
 	}
 	
-	test "Soja transgenica de 0.8 metros" {
+	test "Soja transgenica de 0.8 metros, Ejemplo" {
 		assert.notThat(sojitaTransgenica.daNuevasSemillas())
 		assert.equals(sojitaTransgenica.horasAlSolToleradas(), 7)
 		assert.equals(sojitaTransgenica.espacioOcupado(), 0.4)
+	}
+	
+	test "Parcelas ideales, Ejemplo" {
+		assert.that(mentota.parcelaEsIdeal(parcela1))
+		assert.that(hierbaBuenita.parcelaEsIdeal(parcela1))
+		assert.that(quinoita.parcelaEsIdeal(parcela1))
+		assert.notThat(sojita.parcelaEsIdeal(parcela1))
+		assert.notThat(sojitaTransgenica.parcelaEsIdeal(parcela1))
+	}
+	
+	test "Se asocian bien, Ejemplo" {
+		assert.notThat(sojita.seAsociaBienA(parcela1)) //Parcela1 no es ideal para Sojita, por lo que no se asocia bien.
+		assert.notThat(mentita.seAsociaBienA(parcela2)) //Mentita no es fuerte, por lo que no se asocia bien a una Parcela Industrial.
 	}
 }
