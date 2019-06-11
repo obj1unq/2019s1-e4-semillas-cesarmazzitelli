@@ -1,0 +1,48 @@
+import semillas.*
+
+describe "asd" {
+	
+	const mentota = new Menta(anioDeObtencion = 2010, altura = 1)
+	const mentita = new Menta(anioDeObtencion = 2010, altura = 0.3)
+	const sojita = new Soja(anioDeObtencion = 2009, altura = 0.6)
+	const quinoita = new Quinoa(anioDeObtencion = 2010, altura = 1, horasToleradasDeSol = 12)
+	const quinoota = new Quinoa(anioDeObtencion = 2001, altura = 1, horasToleradasDeSol = 9)
+	const hierbaBuenita = new HierbaBuena(anioDeObtencion = 2005, altura = 3)
+	const sojitaTransgenica = new SojaTransgenica(anioDeObtencion = 2010, altura = 0.8)
+	
+	
+	test "Menta de 1 metro" {
+		assert.that(mentota.daNuevasSemillas())
+		assert.equals(mentota.espacioOcupado(), 3)
+	}
+	
+	test "Menta de 0.3 metros" {
+		assert.notThat(mentita.daNuevasSemillas())
+		assert.equals(mentita.espacioOcupado(), 0.9)
+	}
+	
+	test "Soja de 0.6 metros" {
+		assert.notThat(sojita.daNuevasSemillas())
+		assert.equals(sojita.horasAlSolToleradas(), 7)
+		assert.equals(sojita.espacioOcupado(), 0.3)
+	}
+	
+	test "Quinoa del 2010" {
+		assert.that(quinoita.daNuevasSemillas())
+	}
+	
+	test "Quinoa del 2001" {
+		assert.that(quinoota.daNuevasSemillas())
+	}
+	
+	test "Hierba buena de 3 metros" {
+		assert.that(hierbaBuenita.daNuevasSemillas())
+		assert.equals(hierbaBuenita. espacioOcupado(), 18)
+	}
+	
+	test "Soja transgenica de 0.8 metros" {
+		assert.notThat(sojitaTransgenica.daNuevasSemillas())
+		assert.equals(sojitaTransgenica.horasAlSolToleradas(), 7)
+		assert.equals(sojitaTransgenica.espacioOcupado(), 0.4)
+	}
+}
