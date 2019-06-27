@@ -1,0 +1,45 @@
+import parcelas.*
+import semillas.*
+import INTA.*
+
+describe "parcelas" {
+	const parcela1 = new ParcelaEcologica(ancho = 20, largo = 1, horasDeSolAlDia = 8 )
+	const parcela2 = new ParcelaIndustrial(ancho = 14, largo = 2, horasDeSolAlDia = 5)
+	const soja1 = new Soja(anioDeObtencion = 2009, altura = 2)
+	
+	fixture {
+		parcela1.plantarSiPuede(soja1)
+		parcela1.plantarSiPuede(soja1)
+		parcela1.plantarSiPuede(soja1)
+		parcela1.plantarSiPuede(soja1)
+		
+		parcela2.plantarSiPuede(soja1)
+		parcela2.plantarSiPuede(soja1)
+		parcela2.plantarSiPuede(soja1)
+		
+		_INTA.agregarParcela(parcela1)
+		_INTA.agregarParcela(parcela2)
+	}
+	
+	test "Parcela 1" {
+		assert.equals(parcela1.superficie(), 20)
+		assert.equals(parcela1.cantidadMaximaDePlantas(), 4)
+	}
+	
+	test "Plantar en Parcela 1" {
+		assert.throwsExceptionWithMessage("No hay lugar en la parcela.", { parcela1.plantarSiPuede(soja1) })
+	}
+	
+	test "INTA promedio" {
+		assert.equals(_INTA.promedioDePlantasPorParcela(), 3.5)
+	}
+	
+	test "INTA mas sustentable" {
+		assert.equals(_INTA.parcelaMasAutoSustentable(), parcela1)
+	}
+	
+	test "parcelas" {
+		assert.notThat(parcela1.tieneComplicaciones())
+		assert.equals(parcela1.plantasQueSeAsocianBien(), [])
+	}
+}
